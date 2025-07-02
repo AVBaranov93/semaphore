@@ -1,7 +1,0 @@
----
-- hosts: all
-  become: true
-  tasks:
-    - name: pring os info
-      ansible.builtin.package:
-        name: apache2
