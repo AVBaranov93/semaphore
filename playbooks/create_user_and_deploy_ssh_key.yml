@@ -1,0 +1,8 @@
+---
+- name: create user test_user
+  hosts: srv-web
+  become: yes
+
+  roles:
+    - { role: create_user, when: ansible_system == 'Linux' }
+    - install_ssh_key

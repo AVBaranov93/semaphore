@@ -1,0 +1,25 @@
+---
+- name: create user test_user
+  hosts: web_servers
+  become: yes
+
+  tasks:
+  - block: #Ubuntu
+    - name: create user test_user for Debian
+      user:
+        name: test_user
+        password: $6$JicV59XJFvd6iALU$wxm3flXN9xrJWM5Xgbb7Gq7TEzQ13FfuwgjsgURcUiN.8av5BcO5DDWlARNMTv44eKnDOn8MT2Nu.x0Htn0wW0
+        shell: /bin/bash
+        createhome: yes
+        groups: sudo
+    when: ansible_os_family == "Debian"
+
+  - block: #CentOS
+    - name: create user test_user for RedHat
+      user:
+        name: test_user
+        password: $6$JicV59XJFvd6iALU$wxm3flXN9xrJWM5Xgbb7Gq7TEzQ13FfuwgjsgURcUiN.8av5BcO5DDWlARNMTv44eKnDOn8MT2Nu.x0Htn0wW0
+        shell: /bin/bash
+        createhome: yes
+        groups: wheel
+    when: ansible_os_family == "RedHat"

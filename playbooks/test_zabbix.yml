@@ -1,0 +1,28 @@
+---
+- name: Install Zabbix release package
+  hosts: web1
+  become: yes
+  vars:
+#    zabbix_release_url: "https://repo.zabbix.com/zabbix/7.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_latest_7.0+ubuntu24.04_all.deb"
+    zabbix_release_url: "https://repo.zabbix.com/zabbix/7.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_latest_7.0+ubuntu24.04_all.deb"
+    zabbix_release_local_path: "/tmp/zabbix-release.deb"
+
+  tasks:
+
+    - name: Download Zabbix release .deb package
+      get_url:
+        url: "{{ zabbix_release_url }}"
+        dest: "{{ zabbix_release_local_path }}"
+        mode: '0644'
+        force: no
+      environment:
+        http_proxy: http://10.11.25.17:3128
+        https_proxy: http://10.11.25.17:3128
+
+    - name: Install Zabbix release package
+      apt:
+        deb: "{{ zabbix_release_local_path }}"
+
+    - name: Update apt cache after installing Zabbix repo
+      apt:
+        update_cache: yes

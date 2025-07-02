@@ -1,0 +1,10 @@
+---
+- name: Create oas users and install ssh keys
+  hosts: all
+  become: yes
+
+  vars_files:
+    - /etc/ansible/oas_users.yml
+
+  roles:
+    - create_oas_users

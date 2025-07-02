@@ -1,0 +1,8 @@
+---
+- name: Test connection to client servers
+  hosts: gidromet
+  become: no
+
+  tasks:
+  - name: ping servers
+    ping:

@@ -1,0 +1,44 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for create_user
+- block: #Ubuntu
+
+    - name: create admin user {{ username }} for Debian
+      user:
+        name: "{{ username }}"
+        password: "{{ plain_text_password | password_hash('sha512') }}"
+        shell: /bin/bash
+        createhome: yes
+        groups: sudo
+      when: become_sudo == "yes"
+
+    - name: create usual user {{ username }} for Debian
+      user:
+        name: "{{ username }}"
+        password: "{{ plain_text_password | password_hash('sha512') }}"
+        shell: /bin/bash
+        createhome: yes
+      when: become_sudo == "no"
+
+  when: ansible_os_family == "Debian"
+
+- block: #CentOS
+
+    - name: create user {{ username }} for RedHat
+      user:
+        name: "{{ username }}"
+        password: "{{ plain_text_password | password_hash('sha512') }}"
+        shell: /bin/bash
+        createhome: yes
+        groups: wheel
+      when: become_sudo == "yes"
+
+    - name: create user {{ username }} for RedHat
+      user:
+        name: "{{ username }}"
+        password: "{{ plain_text_password | password_hash('sha512') }}"
+        shell: /bin/bash
+        createhome: yes
+      when: become_sudo == "no"
+
+  when: ansible_os_family == "RedHat"

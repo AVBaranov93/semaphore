@@ -1,0 +1,66 @@
+---
+#- hosts: web_servers
+#  become: true
+#  pre_tasks:
+#
+#  - name: Install Updates
+#    tags: always
+#    apt:
+#      update_cache: yes
+#    when: ansible_distribution == "Ubuntu"
+
+- hosts: web1
+  become: yes
+  tasks:
+
+  - name: Install Apache
+    tags: apache,apache2,web
+    apt:
+      name: apache2
+      state: latest
+
+  - name: Start Apache Service
+    service:
+      name: apache2
+      state: started
+      enabled: yes
+
+- hosts: web2
+  become: true
+  tasks:
+
+  - name: Install MariaDB
+    tags: db,mariadb
+    apt:
+      name: mariadb-server
+      state: latest
+  - name: Start MariaDB
+    service:
+      name: mariadb
+      state: started
+      enabled: true
+
+- hosts: web_servers
+  become: true
+  tasks:
+
+  - name: create service user
+    tags: always
+    user:
+      name: simone
+      groups: root
+
+  - name: add ssh key
+    tags: always
+    authorized_key:
+      user: simone
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMEATGTFDIUgzdsLjt9aPR+b+ihg9xaJqTU3O7+14Bgl baranov-av@srv-ansible"
+
+  - name: add sudoers file for simone
+    tags: always
+    copy:
+      src: "/home/baranov-av/sudoer_simone"
+      dest: "/etc/sudoers.d/simone"
+      owner: root
+      group: root
+      mode: 0440

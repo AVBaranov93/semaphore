@@ -1,0 +1,31 @@
+---
+- name: Install ssh keys
+  hosts: web_servers
+  become: yes
+
+  vars:
+#    ssh_user: baranov-av
+#    keyfile: "/etc/ansible/keys/{{ ssh_user }}.pub"
+
+  tasks:
+  - name: Create .ssh directory, if it doesn't exist
+    file:
+      path: "/home/{{ ssh_user }}/.ssh"
+      state: directory
+      mode: '0700'
+      owner: "{{ ssh_user }}"
+      group: "{{ ssh_user }}"
+
+  - name: Install keys
+    authorized_key:
+      user: "{{ ssh_user}}"
+      state: present
+      key: "{{ lookup('file', '/etc/ansible/keys/{{ ssh_user }}.pub' ) }}"
+
+  - name: Make correct rights for authorized_keys
+    file:
+      path: "/home/{{ ssh_user }}/.ssh/authorized_keys"
+      state: file
+      mode: '0600'
+      owner: "{{ ssh_user }}"
+      group: "{{ ssh_user }}"

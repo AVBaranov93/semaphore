@@ -1,0 +1,27 @@
+---
+- name: create user
+  hosts: srv-dataweather-app
+  become: yes
+
+  vars:
+    username: test_user
+    plain_text_password: test123
+    become_sudo: 'yes'
+
+  tasks:
+    - name: create admin user {{ username }} for Debian
+      user:
+        name: "{{ username }}"
+        password: "{{ plain_text_password | password_hash('sha512') }}"
+        shell: /bin/bash
+        createhome: yes
+        groups: sudo
+      when: become_sudo == "yes"
+
+    - name: create usual user {{ username }} for Debian
+      user:
+        name: "{{ username }}"
+        password: "{{ plain_text_password | password_hash('sha512') }}"
+        shell: /bin/bash
+        createhome: yes
+      when: become_sudo == "no"

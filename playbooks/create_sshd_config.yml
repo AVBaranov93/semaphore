@@ -1,0 +1,7 @@
+---
+- name: create sshd config file
+  hosts: srv-web_v2
+  become: true
+
+  roles:
+  - create_sshd_config

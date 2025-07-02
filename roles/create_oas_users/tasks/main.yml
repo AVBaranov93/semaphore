@@ -1,0 +1,5 @@
+---
+- include_tasks: 10_create_oas_users.yml
+- include_tasks: 20_create_ssh_dir.yml
+- include_tasks: 30_install_ssh_keys.yml
+- include_tasks: 40_make_correct_rights_authorized_keys.yml

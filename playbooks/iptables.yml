@@ -1,0 +1,7 @@
+---
+- name: Configure IPTables
+  hosts: web1
+  become: true
+
+  roles:
+    - iptables

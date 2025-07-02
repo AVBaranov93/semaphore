@@ -1,0 +1,14 @@
+---
+- name: Delete user
+  hosts: srv-dataweather-app
+  become: yes
+
+#  vars:
+#    username: android
+
+  tasks:
+  - name: Delete user {{ username  }}
+    user:
+     name: '{{ username  }}'
+     state: absent
+     remove: yes

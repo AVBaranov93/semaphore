@@ -1,0 +1,25 @@
+---
+- name: Install Apache Server
+  hosts: web_servers
+  become: yes
+
+#  vars:
+#    service_debian_name: apache2
+#    service_redhat_name: httpd
+
+  tasks:
+  - block: #Debian
+    - name: Install Debian Service
+      apt: name={{ service_debian_name }} state=latest
+
+    - name: Start and enable Debian Service
+      service: name={{ service_debian_name }} state=started enabled=yes
+    when: ansible_os_family == "Debian"
+
+  - block: #RedHat
+    - name: Install RedHat Service
+      command: yum install {{ service_redhat_name }} -y
+
+    - name: Start and enable RedHat Service
+      service: name={{ service_redhat_name }} state=started enabled=yes
+    when: ansible_os_family == "RedHat"

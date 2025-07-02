@@ -1,0 +1,9 @@
+users:
+# - {username: baranov-av, state: present, keyfile: /etc/ansible/keys/baranov-av.pub}
+# - {username: yarulin-ro, state: present, keyfile: /etc/ansible/keys/yarulin-ro.pub}
+ - {username: shaikov-sa, state: present, keyfile: /etc/ansible/keys/shaikov-sa.pub}
+ - {username: efremov-ka, state: present, keyfile: /etc/ansible/keys/efremov-ka.pub}
+ - {username: chechikov-ae, state: present, keyfile: /etc/ansible/keys/chechikov-ae.pub}
+ - {username: gordeeva-uo, state: present, keyfile: /etc/ansible/keys/gordeeva-uo.pub}
+ - {username: burykin-ea, state: present, keyfile: /etc/ansible/keys/burykin-ea.pub}
+ - {username: popov-ay, state: present, keyfile: /etc/ansible/keys/popov-ay.pub}

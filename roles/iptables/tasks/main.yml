@@ -1,0 +1,47 @@
+---
+- block:
+
+    - name: Ensure iptables-persistent is installed
+      apt:
+        name: iptables-persistent
+        state: latest
+        update_cache: yes
+
+    - name: Allow Related and Established Connections
+      iptables:
+        chain: INPUT
+        protocol: all
+        ctstate: NEW,ESTABLISHED
+        jump: ACCEPT
+
+    - name: Allow DNS
+      iptables:
+        chain: INPUT
+        protocol: tcp
+        destination_port: 53
+        jump: ACCEPT
+
+    - name: Allow ICMP and SSH from specific networks
+      iptables:
+        chain: INPUT
+        protocol: "{{ item.protocol }}"
+        source: "{{ item.source }}"
+        destination_port: "{{ item.port | default(omit) }}"
+        ctstate: NEW,ESTABLISHED
+        jump: ACCEPT
+      loop:
+        - { source: "10.11.160.128/26", protocol: "tcp", port: "22" }
+        - { source: "10.11.160.128/26", protocol: "icmp" }
+        - { source: "10.11.25.0/24", protocol: "tcp", port: "22" }
+        - { source: "10.11.25.0/24", protocol: "icmp" }
+
+    - name: Set default Policies
+      iptables:
+        chain: "{{ item.chain }}"
+        policy: "{{ item.policy }}"
+      with_items:
+        - { chain: INPUT, policy: DROP }
+        - { chain: FORWARD, policy: DROP }
+        - { chain: OUTPUT, policy: ACCEPT }
+
+  notify: Save iptables rules

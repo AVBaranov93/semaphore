@@ -1,0 +1,7 @@
+- name: Set correct rights for authorized_keys
+  file:
+    path: "/home/{{ username }}/.ssh/authorized_keys"
+    state: file
+    mode: '0600'
+    owner: "{{ username }}"
+    group: "{{ username }}"

@@ -1,0 +1,11 @@
+---
+- hosts: srv-web
+  become: true
+
+  tasks:
+
+  - name: Ensure iptables-persistent is installed
+    apt:
+      name: iptables-persistent
+      state: latest
+      update_cache: yes

@@ -1,0 +1,36 @@
+---
+- name: create folders and file
+  hosts: "{{ target_servers }}"
+  become: yes
+
+  tasks:
+  - name: create folders
+    file:
+      path: /home/baranov-av/folder/subfolder/subsubfolder
+      state: directory
+      owner: baranov-av
+      mode: u+rwx,g+rx,o-rwx
+
+  - name: create file
+    copy:
+      dest: /home/baranov-av/folder/subfolder/subsubfolder/1.txt
+      content: |
+        hello world!
+        sdfsdf
+        swdfsdf
+
+  - block:
+      - name: remove apache from debian
+        apt:
+          name:
+            - apache2
+            - mc
+            - net-tools
+          state: latest
+    when: ansible_os_family == "Debian"
+
+  - block:
+      - name: remove apache from redhat
+        shell: yum install -y httpd
+    when: ansible_os_family == "RedHat"
+

@@ -1,0 +1,8 @@
+---
+- name: Create .ssh directory, if it doesn't exist
+  file:
+    path: "/home/{{ username }}/.ssh"
+    state: directory
+    mode: '0700'
+    owner: "{{ username }}"
+    group: "{{ username }}"

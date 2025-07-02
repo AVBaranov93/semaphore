@@ -1,0 +1,24 @@
+- name: Download Zabbix release .deb package
+  get_url:
+    url: "{{ zabbix_release_url }}"
+    dest: "{{ zabbix_release_local_path }}"
+    mode: '0644'
+    force: no
+  environment:
+    http_proxy: http://10.11.25.17:3128
+    https_proxy: http://10.11.25.17:3128
+
+- name: Install Zabbix release package
+  apt:
+    deb: "{{ zabbix_release_local_path }}"
+#  notify: Update apt cache
+
+- name: Update apt cache after installing Zabbix repo
+  apt:
+    update_cache: yes
+
+- name: Install Zabbix agent
+  apt:
+    name: zabbix-agent
+    state: latest
+  notify: Restart Zabbix-Agent

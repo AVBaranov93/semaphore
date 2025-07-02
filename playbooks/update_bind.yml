@@ -1,0 +1,37 @@
+---
+- name: Update BIND zone
+  hosts: baranov_pc
+  become: yes
+  vars:
+    zone_file: /home/baranov-av/test.txt
+    new_host: simone
+    new_ip: 10.1.2.3
+    new_record: "{{ '%-16s\tA\t%s' | format(new_host, new_ip) }}"
+
+  tasks:
+
+    - name: Get current serial from zone file
+      command: grep -Po '\d{10}(?=\s*;\s*serial)' {{ zone_file }}
+      register: current_serial
+
+    - name: Set new serial number (increment by 1)
+      set_fact:
+        new_serial: "{{ '%010d' | format(current_serial.stdout | int + 1) }}"
+
+    - name: Update serial in zone file
+      replace:
+        path: "{{ zone_file }}"
+        regexp: '(^\s*)\d{10}(\s*;\s*serial)'
+        replace: '\1{{ new_serial }}\2'
+        backup: yes
+
+    - name: Add new A record to end of zone file
+      lineinfile:
+        path: "{{ zone_file }}"
+        line: "{{ new_record }}"
+        insertafter: EOF
+        state: present
+
+#    - name: Reload BIND
+#      command: rndc reload
+

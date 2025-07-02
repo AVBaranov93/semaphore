@@ -1,0 +1,31 @@
+---
+- hosts: srv-web
+  become: true
+  tasks:
+
+  - name: install updates
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+
+  - name: create service user
+    tags: always
+    user:
+      name: simone
+      groups: root
+
+  - name: add ssh key
+    tags: always
+    authorized_key:
+      user: simone
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMEATGTFDIUgzdsLjt9aPR+b+ihg9xaJqTU3O7+14Bgl baranov-av@srv-ansible"
+
+  - name: add sudoers file for simone
+    tags: always
+    copy:
+      src: "/home/baranov-av/sudoer_simone"
+      dest: "/etc/sudoers.d/simone"
+      owner: root
+      group: root
+      mode: 0440

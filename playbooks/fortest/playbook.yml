@@ -1,0 +1,12 @@
+---
+- name: Test Playbook
+  hosts: web_servers
+  become: yes
+
+  tasks:
+    - name: Check python version
+      command: python3 --version
+
+    - name: Debug ansible_pkg_mgr
+      debug:
+        var: ansible_pkg_mgr

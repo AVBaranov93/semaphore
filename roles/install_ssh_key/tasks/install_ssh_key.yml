@@ -1,0 +1,5 @@
+- name: Install keys
+  authorized_key:
+    user: "{{ username}}"
+    state: present
+    key: "{{ lookup('file', '/etc/ansible/keys/{{ username }}.pub' ) }}"

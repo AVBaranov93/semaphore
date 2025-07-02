@@ -1,0 +1,14 @@
+---
+- name: Install ssh keys
+  hosts: web_servers
+  become: yes
+  vars_files:
+    - /etc/ansible/users.yml
+
+  tasks:
+  - name: Install keys
+    ansible.posix.authorized_key:
+      user: "{{item.username}}"
+      state: "{{item.state}}"
+      key: "{{ lookup('file', item.keyfile) }}"
+    with_items: "{{ users }}"

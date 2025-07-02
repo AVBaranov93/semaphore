@@ -1,0 +1,2 @@
+users:
+ - {username: testuser, state: present, keyfile: /home/baranov-av/.ssh/testuser.pub}

@@ -1,0 +1,7 @@
+---
+- name: Install keys
+  authorized_key:
+    user: "{{ item.username }}"
+    state: "{{ item.state }}"
+    key: "{{ lookup('file', item.keyfile ) }}"
+  with_items: "{{ users }}"

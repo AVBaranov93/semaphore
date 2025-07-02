@@ -1,0 +1,9 @@
+- name: Restart Zabbix-Agent
+  service:
+    name: zabbix-agent
+    state: restarted
+    enabled: yes
+
+- name: Update apt cache
+  apt:
+    update_cache: yes

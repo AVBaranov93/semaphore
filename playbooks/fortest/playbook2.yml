@@ -1,0 +1,7 @@
+---
+- name: Ensure vim is installed
+  hosts: web3
+  become: yes
+  tasks:
+    - name: Install vim using yum
+      command: /usr/bin/yum install httpd -y

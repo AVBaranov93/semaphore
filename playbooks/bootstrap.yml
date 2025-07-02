@@ -1,0 +1,25 @@
+---
+- hosts: baranov_pc
+  become: true
+  tasks:
+
+  - name: create service user
+    tags: always
+    user:
+      name: adm-ansible
+      groups: sudo
+
+  - name: add ssh key
+    tags: always
+    authorized_key:
+      user: adm-ansible
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMEATGTFDIUgzdsLjt9aPR+b+ihg9xaJqTU3O7+14Bgl baranov-av@srv-ansible"
+
+  - name: add sudoers file for service user
+    tags: always
+    copy:
+      src: "/home/baranov-av/sudoer_adm-ansible"
+      dest: "/etc/sudoers.d/adm-ansible"
+      owner: root
+      group: root
+      mode: 0440
