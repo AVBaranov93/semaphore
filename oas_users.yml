@@ -1,5 +1,5 @@
 users:
-# - {username: baranov-av, state: present, keyfile: /etc/ansible/keys/baranov-av.pub}
+ - {username: baranov-av, state: present, keyfile: /etc/ansible/keys/baranov-av.pub}
 # - {username: yarulin-ro, state: present, keyfile: /etc/ansible/keys/yarulin-ro.pub}
  - {username: shaikov-sa, state: present, keyfile: /etc/ansible/keys/shaikov-sa.pub}
  - {username: efremov-ka, state: present, keyfile: /etc/ansible/keys/efremov-ka.pub}
