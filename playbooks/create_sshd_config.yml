@@ -1,6 +1,6 @@
 ---
 - name: create sshd config file
-  hosts: srv-web_v2
+  hosts: srv-squid
   become: true
 
   roles:

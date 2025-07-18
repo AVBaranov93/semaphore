@@ -1,5 +1,5 @@
 ---
-- hosts: baranov_pc
+- hosts: preparing_host
   become: true
   tasks:
 

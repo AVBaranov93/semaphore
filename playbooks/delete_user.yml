@@ -1,6 +1,6 @@
 ---
 - name: Delete user
-  hosts: srv-dataweather-app
+  hosts: Delete_User
   become: yes
 
 #  vars:

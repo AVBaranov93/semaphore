@@ -1,6 +1,6 @@
 ---
 - name: Create oas users and install ssh keys
-  hosts: all
+  hosts: NewVM
   become: yes
 
   vars_files:

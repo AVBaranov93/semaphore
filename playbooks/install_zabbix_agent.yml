@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: Zabbix
   gather_facts: no
   become: yes
 

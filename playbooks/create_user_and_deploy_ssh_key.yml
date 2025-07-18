@@ -1,6 +1,6 @@
 ---
 - name: create user test_user
-  hosts: srv-web
+  hosts: Create_User
   become: yes
 
   roles:
