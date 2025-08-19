@@ -1,0 +1,31 @@
+---
+- name: Checking domain for acceptable values
+  fail:
+    msg: "Недопустимое значение переменной domain: {{ domain }}. Разрешено: meteoprim, primgidromet, primpogoda."
+  when: domain not in ["meteoprim", "primgidromet", "primpogoda"]
+
+- name: Create backup zone file
+  shell: cp "{{ zone_file }}" "{{ zone_file }}.back"
+
+- name: Get current serial from SOA and register it
+  shell: grep -E '^\s*[0-9]+\s*;\s*serial' {{ zone_file }} | awk '{print $1}'
+  register: current_serial
+  changed_when: false
+
+- name: Increase serial by 1
+  set_fact:
+    new_serial: "{{ current_serial.stdout | int + 1 }}"
+
+- name: Update serial in dns zone
+  replace:
+    path: "{{ zone_file }}"
+    regexp: '^(\s*)[0-9]+(\s*;\s*serial)'
+    replace: '\g<1>{{ new_serial }}\g<2>'
+
+- name: Add  A-record
+  lineinfile:
+    path: "{{ zone_file }}"
+    line: "{{ new_record }}"
+    state: present
+    insertafter: EOF
+  notify: Restart BIND9

@@ -1,0 +1,7 @@
+---
+- name: Add new DNS record in BIND9
+  hosts: Dns
+  become: true
+
+  roles:
+    - create_dns_record

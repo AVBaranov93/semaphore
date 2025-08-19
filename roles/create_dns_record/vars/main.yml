@@ -1,0 +1,5 @@
+fqdn: "{{ 'meteoprim.ext.ru' if domain == 'meteoprim' else
+      'primpogoda.ru' if domain == 'primpogoda' else
+      'primgidromet.ru' if domain == 'primgidromet' else '' }}"
+zone_file: /etc/bind/master/{{ fqdn }}
+new_record: "{{ a_record }}        A        {{ ip_address }}"
