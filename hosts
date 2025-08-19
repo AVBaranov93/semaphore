@@ -1,3 +1,5 @@
 [preparing_host]
+#srv-nextcloud ansible_host=92.50.219.78
 #test-pc ansible_host=10.11.25.27
 
+ns1 ansible_host=10.11.24.2
